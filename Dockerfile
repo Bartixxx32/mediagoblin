@@ -24,7 +24,12 @@ RUN groupadd mediagoblin && sudo usermod --append -G mediagoblin mediagoblin
 RUN mkdir -p /var/log/mediagoblin && chown -hR mediagoblin:mediagoblin /var/log/mediagoblin
 RUN mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org
 RUN cd /srv/mediagoblin.example.org && sudo -u mediagoblin git clone http://git.savannah.gnu.org/r/mediagoblin.git
-RUN cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin git checkout -b v0.8.1 v0.8.1
+#
+# The tag v0.8.1 is bugous, use 731224abcab9cfbde7ad69849bbbecc843843d90 instead which
+# is slightly ahead and works better (see https://issues.mediagoblin.org/ticket/1070
+# https://issues.mediagoblin.org/ticket/5384).
+#
+RUN cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin git checkout -b v0.8.1 731224abcab9cfbde7ad69849bbbecc843843d90
 RUN cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin git submodule sync
 RUN cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin git submodule update --force --init --recursive
 RUN cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin ./bootstrap.sh
